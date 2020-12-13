@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+F:/MetroRoutePlanningSystem/LoadData.cpp
+LoadData.h
+F:/MetroRoutePlanningSystem/LoadData.h
+
+F:/MetroRoutePlanningSystem/LoadData.h
+Map.h
+F:/MetroRoutePlanningSystem/Map.h
+string
+-
+
+F:/MetroRoutePlanningSystem/Map.h
+string
+-
+iostream
+-
+
