@@ -3,13 +3,43 @@
 //
 
 #include "LoadData.h"
-
+#include<fstream>
 
 LoadData::LoadData(Map *map, const string &stationFile, const string &routeFile) {
-    int id[] = {1,2};
-    map->addStation("广州站",id,2);
-    int id2[] = {1,2,3,4,5,6,7,8};
-    map->addStation("广州南站",id2,8);
-    int id3[] = {2};
-    map->addStation("华师站",id3,1);
+	ifstream ifs;
+	ifs.open(stationFile.c_str(),ios::in);
+	string s;
+	string station;
+    int id[3];
+    while(ifs>>s)
+    {	
+    int	lineNum=0; 
+    	if(s == "|"){
+			ifs>>id[lineNum];
+			cout<<"站点位于的号线："; 
+			while(id[lineNum] != -1){
+				cout<<id[lineNum]<<" ";
+				ifs>>id[++lineNum];
+			}
+			map->addStation(station,id,lineNum);
+			cout<<endl;
+		}else{
+			station = s;
+			cout<<station<<endl;
+		}	
+	}
+	ifstream ifs2;
+	ifs2.open(routeFile.c_str(),ios::in);
+	int st1,st2,dis,temp;
+	while(ifs2>>temp)
+	{
+		st1=temp;
+		ifs2>>temp;
+		st2=temp;
+		ifs2>>temp;
+		dis=temp;
+		cout<<"st1:"<<st1<<" "<<"st2:"<<st2<<" "<<"dis:"<<dis<<endl;
+		map->addRoute(st1,st2,dis);
+	}
+
 }
