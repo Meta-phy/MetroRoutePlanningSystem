@@ -16,21 +16,21 @@ LoadData::LoadData(Map *map, const string &stationFile, const string &routeFile)
     int	lineNum=0; 
     	if(s == "|"){
 			ifs>>id[lineNum];
-			cout<<"站点位于的号线："; 
+//			cout<<"站点位于线路:";
 			while(id[lineNum] != -1){
-				cout<<id[lineNum]<<" ";
+//				cout<<id[lineNum]<<" ";
 				ifs>>id[++lineNum];
 			}
 			map->addStation(station,id,lineNum);
-			cout<<endl;
+//			cout<<endl;
 		}else{
 			station = s;
-			cout<<station<<endl;
+//			cout<<station<<endl;
 		}	
 	}
 	ifstream ifs2;
 	ifs2.open(routeFile.c_str(),ios::in);
-	int st1,st2,dis,temp;
+	int st1,st2,dis,line,temp;
 	while(ifs2>>temp)
 	{
 		st1=temp;
@@ -38,8 +38,10 @@ LoadData::LoadData(Map *map, const string &stationFile, const string &routeFile)
 		st2=temp;
 		ifs2>>temp;
 		dis=temp;
-		cout<<"st1:"<<st1<<" "<<"st2:"<<st2<<" "<<"dis:"<<dis<<endl;
-		map->addRoute(st1,st2,dis);
+        ifs2>>temp;
+        line=temp;
+//		cout<<"st1:"<<st1<<" "<<"st2:"<<st2<<" "<<"dis:"<<dis<<endl;
+		map->addRoute(st1,st2,dis,line);
 	}
 
 }

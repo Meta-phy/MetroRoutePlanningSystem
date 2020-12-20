@@ -7,7 +7,6 @@
 
 #include<string>
 #include <iostream>
-
 using namespace std;
 
 const int MaxSize = 100;
@@ -25,22 +24,27 @@ public:
 
     virtual ~Map();
     void Floyd();
+    void LTFloyd();
     void shortestRoute(int start, int end);
     void shortestTime(int start, int end);
     void leastTransfer(int start, int end);
     void leastStation(int start, int end);
     int getStationNum() const;
     int getRouteNum() const;
-    void addRoute(int st1, int st2, int dist);
+    void addRoute(int st1, int st2, int dist, int line);
     void addStation(string name,int id[],int lineNum);
     void printStation();
 private:
 
-    Station station[MaxSize];          //存放路线图中站点的数组
-    int route[MaxSize][MaxSize];          //存放路线图中路线距离的数组
-    int stationNum, routeNum;             //路线图的站点数和路线数
+    Station station[MaxSize];//存放路线图中站点的数组
+    int route[MaxSize][MaxSize];//存放路线图中路线距离的数组
+    int lines[MaxSize][MaxSize];
+    int stationNum, routeNum;//路线图的站点数和路线数
     int dist[MaxSize][MaxSize];
+    int transferTimes[MaxSize][MaxSize];
+    int passStations[MaxSize][MaxSize];
     string path[MaxSize][MaxSize];
+    string LTPath[MaxSize][MaxSize];
 };
 
 
