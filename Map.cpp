@@ -4,18 +4,20 @@
 
 #include "Map.h"
 #include <iostream>
-
+#define nullptr NULL 
 using namespace std;
 
 Map::Map() {
     stationNum = 0;
     routeNum = 0;
-    for (int i = 0; i < MaxSize; i++)
+    for (int i = 0; i < MaxSize; i++){
         for (int j = 0; j < MaxSize; j++) {
             route[i][j] = 65535; // 65535表示两个顶点不邻接
             lines[i][j] = 65535;
             transferTimes[i][j] = 65535;
         }
+        tr[i] = false;
+	}
 }
 
 Map::~Map() {
@@ -58,10 +60,10 @@ void Map::shortestRoute(int start, int end) {
 void Map::leastTransfer(int start, int end) {
     if (start == end) {
         cout << "起始点一致,无需搭乘地铁" << endl;
-//    } else if (LTPath[start][end]=="") {
-//        cout << "两站点不可达" << endl;
-//    } else {
-//        cout << LTPath[start][end] << ":" << transferTimes[start][end] << endl;
+    } else if (LTPath[start][end]=="") {
+        cout << "两站点不可达" << endl;
+    } else {
+        cout << LTPath[start][end] << ":需换乘" << transferTimes[start][end] << "次" << endl;
     }
 }
 
@@ -94,7 +96,6 @@ void Map::Floyd() {
 
 
 void Map::LTFloyd() {
-
     for (int i = 0; i < stationNum; ++i) { //初始化路线
         for (int j = 0; j < stationNum; ++j) {
             if (lines[i][j] != 65535) {
@@ -111,43 +112,47 @@ void Map::LTFloyd() {
             for (int j = 0; j < stationNum; ++j) {
                 if(route[i][k] <65535 && route[k][j] < 65535 && i != j) {
                     if (lines[i][k] != lines[k][j]) {
+                    	if(!tr[k]){
+                    		tr[k] = true;
+                    		cout<<station[k].name<<"是换乘站"<<endl;
+                    	}
                         transferTimes[i][j] = 1;
                         LTPath[i][j] = LTPath[i][k].substr(0,LTPath[i][k].size()-station[k].name.size()) + LTPath[k][j];
                         cout << "从" << LTPath[i][k] << "到" << LTPath[k][j] << "需要换乘" << transferTimes[i][j] << endl;
-                        transferTimes[i][k] = transferTimes[k][j] = 65535;
                     }else{
+                    	LTPath[i][j] = LTPath[i][k].substr(0,LTPath[i][k].size()-station[k].name.size()) + LTPath[k][j];
                         transferTimes[i][j] = 0;
-                        transferTimes[i][k] = transferTimes[k][j] = 65535;
                     }
                     lines[i][j] = lines[k][j];
                 }
             }
         }
     }
-//
-//    for (int k = 0; k < stationNum; ++k) {
-//        for (int i = 0; i < stationNum; ++i) {
-//            for (int j = 0; j < stationNum; ++j) {
-//                if ((transferTimes[i][k] + transferTimes[k][j]) < transferTimes[i][j] && i != j) {
-//                    transferTimes[i][j] = transferTimes[i][k] + transferTimes[k][j];
-////                    if(lines[i][k] == lines[k][j] ){
-////                        transferTimes[i][j] = transferTimes[i][k] + transferTimes[k][j];
-////                        lines[i][j] = lines[k][j];
-////                    }else{
-////                        transferTimes[i][j] = transferTimes[i][k] + transferTimes[k][j] + 1;
-////
-////                    }
-////                    cout<<LTPath[i][k]<<"("<<transferTimes[i][k]<<" "<<lines[i][k]<<")到"<<LTPath[k][j]<<"("<<transferTimes[k][j]<<" "<<lines[k][j]<<")"<<endl;
-//                    LTPath[i][j] = LTPath[i][k].substr(0,LTPath[i][k].size()-station[k].name.size()) + LTPath[k][j];
-//
-////                    cout<<LTPath[i][j]<<"("<<transferTimes[i][j]<<" "<<lines[i][j]<<")"<<endl;
-//                    //分割字符串,简单方法去除站点重复问题,非最优方法
-//
-//                }
-//            }
-//        }
-//    }
-//
+
+    for (int k = 0; k < stationNum; ++k) {
+        for (int i = 0; i < stationNum; ++i) {
+            for (int j = 0; j < stationNum; ++j) {
+                if ((transferTimes[i][k] + transferTimes[k][j]) < transferTimes[i][j] && i != j) {
+                    transferTimes[i][j] = transferTimes[i][k] + transferTimes[k][j];
+                    if(lines[i][k] != lines[k][j] && tr[k]){
+                        transferTimes[i][j] = transferTimes[i][k] + transferTimes[k][j] + 1;
+						LTPath[i][j] = LTPath[i][k] + "(此站换乘)" + LTPath[k][j].substr(station[k].name.size(),LTPath[k][j].size());
+//						cout<<LTPath[i][k]<<"("<<transferTimes[i][k]<<" "<<lines[i][k]<<")到"<<LTPath[k][j]<<"("<<transferTimes[k][j]<<" "<<lines[k][j]<<")"<<endl;
+//						cout<<"换乘次数"<<transferTimes[i][j];
+                    }else if(!tr[k]){
+                        transferTimes[i][j] = transferTimes[i][k] + transferTimes[k][j];
+                        lines[i][j] = lines[k][j];
+                        LTPath[i][j] = LTPath[i][k].substr(0,LTPath[i][k].size()-station[k].name.size()) + LTPath[k][j];
+                    }else{
+                        transferTimes[i][j] = transferTimes[i][k] + transferTimes[k][j];
+                        lines[i][j] = lines[k][j];
+                        LTPath[i][j] = LTPath[i][k].substr(0,LTPath[i][k].size()-station[k].name.size()) + LTPath[k][j];
+                    }
+                }
+            }
+        }
+    }
+
 
 }
 

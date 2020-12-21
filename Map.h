@@ -35,7 +35,6 @@ public:
     void addStation(string name,int id[],int lineNum);
     void printStation();
 private:
-
     Station station[MaxSize];//存放路线图中站点的数组
     int route[MaxSize][MaxSize];//存放路线图中路线距离的数组
     int lines[MaxSize][MaxSize];
@@ -43,6 +42,7 @@ private:
     int dist[MaxSize][MaxSize];
     int transferTimes[MaxSize][MaxSize];
     int passStations[MaxSize][MaxSize];
+    bool tr[MaxSize];//储存该站点是否为换乘点
     string path[MaxSize][MaxSize];
     string LTPath[MaxSize][MaxSize];
 };
