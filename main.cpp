@@ -25,17 +25,20 @@ int main() {
 		cin>>flag;
 		if(flag==1)
 		{
-			int start,end;
+			string start,end;
+        int startNum,endNum;
         cout<<"请输入起点:";
         cin>>start;
         cout<<"请输入终点:";
         cin>>end;
+        startNum=map.search(start);
+        endNum=map.search(end);
         cout<<endl<<"查询结果如下："<<endl<<endl; 
 		cout<<"最短路径："<<endl; 
-        map.shortestRoute(start,end);
+        map.shortestRoute(startNum,endNum);
         cout<<endl;
         cout<<"最少换乘：" <<endl;
-        map.leastTransfer(start,end);
+        map.leastTransfer(startNum,endNum);
         cout<<endl;
 			
 		}

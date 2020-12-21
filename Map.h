@@ -33,6 +33,7 @@ public:
     int getRouteNum() const;
     void addRoute(int st1, int st2, int dist, int line);
     void addStation(string name,int id[],int lineNum);
+    int search(string str);
     void printStation();
 private:
     Station station[MaxSize];//存放路线图中站点的数组

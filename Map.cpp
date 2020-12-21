@@ -24,6 +24,17 @@ Map::~Map() {
 
 }
 
+int Map::search(string str){
+	int index = -1;
+	for(int i=0;i<stationNum;i++)
+	{
+		if(station[i].name == str)
+			index = i;
+	}
+	return index;
+
+}
+
 void Map::addRoute(int st1, int st2, int dist, int line) {
     route[st1][st2] = dist;
     route[st2][st1] = dist;
@@ -63,7 +74,7 @@ void Map::leastTransfer(int start, int end) {
     } else if (LTPath[start][end]=="") {
         cout << "两站点不可达" << endl;
     } else {
-        cout << LTPath[start][end] << ":需换乘" << transferTimes[start][end] << "次" << endl;
+        cout << LTPath[start][end] << ":需换乘" << transferTimes[start][end] << "次" << endl;  
     }
 }
 
@@ -114,11 +125,11 @@ void Map::LTFloyd() {
                     if (lines[i][k] != lines[k][j]) {
                     	if(!tr[k]){
                     		tr[k] = true;
-                    		cout<<station[k].name<<"是换乘站"<<endl;
+//                    		cout<<station[k].name<<"是换乘站"<<endl;
                     	}
                         transferTimes[i][j] = 1;
                         LTPath[i][j] = LTPath[i][k].substr(0,LTPath[i][k].size()-station[k].name.size()) + LTPath[k][j];
-                        cout << "从" << LTPath[i][k] << "到" << LTPath[k][j] << "需要换乘" << transferTimes[i][j] << endl;
+//                        cout << "从" << LTPath[i][k] << "到" << LTPath[k][j] << "需要换乘" << transferTimes[i][j] << endl;
                     }else{
                     	LTPath[i][j] = LTPath[i][k].substr(0,LTPath[i][k].size()-station[k].name.size()) + LTPath[k][j];
                         transferTimes[i][j] = 0;
