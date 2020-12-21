@@ -16,17 +16,12 @@ int main() {
 //        }
 //    }
    cout<<"欢迎使用广州地铁路线查询系统！"<<endl<<endl; 
-   	ifstream infile;
-   	infile.open("map.txt");
-	string temp;
-	while(getline(infile,temp))
-   	{
-   		cout<<temp<<endl;
-   	}
+   cout<<"温馨提醒：请将窗口最大化已获得良好体验，感谢！"<<endl<<endl; 
+   	
 	
 	int flag=-1; 
     while (flag!=0){
-    	cout<<"1.查询路线 0.退出"<<endl;
+    	cout<<"1.查询路线 2.查看地图 0.退出"<<endl;
 		cin>>flag;
 		if(flag==1)
 		{
@@ -43,7 +38,17 @@ int main() {
         map.leastTransfer(start,end);
         cout<<endl;
 			
-		} 
+		}
+		else if(flag==2)
+		{
+			ifstream infile;
+   	infile.open("map.txt");
+	string temp;
+	while(getline(infile,temp))
+   	{
+   		cout<<temp<<endl;
+   	}
+		 } 
     }
     cout<<"感谢使用,下次再会！"; 
     return 0;
