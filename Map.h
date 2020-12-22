@@ -25,6 +25,8 @@ public:
     virtual ~Map();
     void Floyd();
     void LTFloyd();
+    void LSFloyd();
+    void STFloyd(int velocity,int transferTime, int stoppingTime);
     void shortestRoute(int start, int end);
     void shortestTime(int start, int end);
     void leastTransfer(int start, int end);
@@ -41,11 +43,16 @@ private:
     int lines[MaxSize][MaxSize];
     int stationNum, routeNum;//路线图的站点数和路线数
     int dist[MaxSize][MaxSize];
+    int STDist[MaxSize][MaxSize];
     int transferTimes[MaxSize][MaxSize];
+    int STTransferTimes[MaxSize][MaxSize];
     int passStations[MaxSize][MaxSize];
+    int time[MaxSize][MaxSize];
     bool tr[MaxSize];//储存该站点是否为换乘点
     string path[MaxSize][MaxSize];
     string LTPath[MaxSize][MaxSize];
+    string LSPath[MaxSize][MaxSize];
+    string STPath[MaxSize][MaxSize];
 };
 
 
